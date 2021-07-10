@@ -12,6 +12,8 @@ ACharacterBase::ACharacterBase()
 
 	m_AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
 	m_AttributeSetBaseComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBaseComp");
+	m_bIsDead = false;
+	m_TeamID = 255;
 }
 
 // Called when the game starts or when spawned
@@ -19,6 +21,7 @@ void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	m_AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &ACharacterBase::OnHealthChange);
+	AutoDeterminTeamID();
 }
 
 // Called every frame
@@ -52,8 +55,28 @@ void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcqui
 	}
 }
 
+bool ACharacterBase::IsHostileTo(ACharacterBase* Other)
+{
+	return m_TeamID != Other->m_TeamID;
+}
+
 void ACharacterBase::OnHealthChange(float Health, float MaxHealth)
 {
+	if (Health <= 0 && !m_bIsDead)
+	{
+		m_bIsDead = true;
+		BP_Die();
+	}
+
 	BP_OnHealthChanged(Health, MaxHealth);
+}
+
+void ACharacterBase::AutoDeterminTeamID()
+{
+	AController* pController = GetController();
+	if (pController && pController->IsPlayerController())
+	{
+		m_TeamID = 0;
+	}
 }
 
