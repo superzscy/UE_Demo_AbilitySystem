@@ -60,15 +60,20 @@ bool ACharacterBase::IsHostileTo(ACharacterBase* Other)
 	return m_TeamID != Other->m_TeamID;
 }
 
-void ACharacterBase::OnHealthChange(float Health, float MaxHealth)
+void ACharacterBase::OnHealthChange(float CurValue, float MaxValue)
 {
-	if (Health <= 0 && !m_bIsDead)
+	if (CurValue <= 0 && !m_bIsDead)
 	{
 		m_bIsDead = true;
 		BP_Die();
 	}
 
-	BP_OnHealthChanged(Health, MaxHealth);
+	BP_OnHealthChanged(CurValue, MaxValue);
+}
+
+void ACharacterBase::OnManaChange(float CurValue, float MaxValue)
+{
+	BP_OnManaChanged(CurValue, MaxValue);
 }
 
 void ACharacterBase::AutoDeterminTeamID()

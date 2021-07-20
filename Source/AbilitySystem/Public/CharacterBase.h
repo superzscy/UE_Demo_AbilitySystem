@@ -46,18 +46,22 @@ public:
 	bool IsHostileTo(ACharacterBase* Other);
 
 	UFUNCTION()
-	void OnHealthChange(float Health, float MaxHealth);
+	void OnHealthChange(float CurValue, float MaxValue);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnHealthChanged"))
-	void BP_OnHealthChanged(float Health, float MaxHealth);
+	void BP_OnHealthChanged(float CurValue, float MaxValue);
+
+	UFUNCTION()
+	void OnManaChange(float CurValue, float MaxValue);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnManaChanged"))
+	void BP_OnManaChanged(float CurValue, float MaxValue);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "Die"))
 	void BP_Die();
 
 protected:
 	void AutoDeterminTeamID();
-
-	void OnDead();
 
 	bool m_bIsDead;
 	uint8 m_TeamID;
