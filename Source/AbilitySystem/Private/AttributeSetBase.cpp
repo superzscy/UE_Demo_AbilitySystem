@@ -26,9 +26,9 @@ void UAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffectMo
 
 	if (Data.EvaluatedData.Attribute.GetUProperty() == FindFieldChecked<UProperty>(UAttributeSetBase::StaticClass(), GET_MEMBER_NAME_CHECKED(UAttributeSetBase, m_Mana)))
 	{
-		m_Mana.SetCurrentValue(FMath::Clamp(m_Health.GetCurrentValue(), 0.0f, m_MaxMana.GetCurrentValue()));
-		m_Mana.SetBaseValue(FMath::Clamp(m_Health.GetBaseValue(), 0.0f, m_MaxMana.GetCurrentValue()));
+		m_Mana.SetCurrentValue(FMath::Clamp(m_Mana.GetCurrentValue(), 0.0f, m_MaxMana.GetCurrentValue()));
+		m_Mana.SetBaseValue(FMath::Clamp(m_Mana.GetBaseValue(), 0.0f, m_MaxMana.GetCurrentValue()));
 
-		OnHealthChange.Broadcast(m_Mana.GetCurrentValue(), m_MaxMana.GetCurrentValue());
+		OnManaChange.Broadcast(m_Mana.GetCurrentValue(), m_MaxMana.GetCurrentValue());
 	}
 }

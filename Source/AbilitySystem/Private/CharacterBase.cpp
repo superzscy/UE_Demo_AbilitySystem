@@ -21,6 +21,7 @@ void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	m_AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &ACharacterBase::OnHealthChange);
+	m_AttributeSetBaseComp->OnManaChange.AddDynamic(this, &ACharacterBase::OnManaChange);
 	AutoDeterminTeamID();
 }
 
